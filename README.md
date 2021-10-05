@@ -18,6 +18,53 @@ Before we get started, let’s explain what a choropleth map is to those who mig
 
 
 ## Prepare JSON data
-We used a [Eurostat](https://ec.europa.eu/CensusHub2/query.do?step=selectHyperCube&qhc=false) database for this example. You simply choose what data from the census you are interested in and download it as a table. After cleaning data you have to convert CSV to JSON format easily with online [converter](https://csvjson.com/csv2json), or you can use symple csv2json python [script]
+We used a [Eurostat](https://ec.europa.eu/CensusHub2/query.do?step=selectHyperCube&qhc=false) database for this example. You can simply choose what data from the census you are interested in and download it as a table. After cleaning data you have to convert CSV to JSON format easily with online [converter](https://csvjson.com/csv2json), or you can use symple csv2json python [script](https://github.com/FridrichPeter/maptiler/blob/main/csv2json.py).
 
+## Make a simple WEBMAP
+As we mentioned above, for this project we used a Mapbox GL JS library, that loads vector tiles and style from hosting and draws a map in the browser. This solution requires WebGL support in a browser. See also MapBox GL JS examples and the full [API Specification](https://docs.mapbox.com/mapbox-gl-js/api/). Just copy the code below and start with your web app:
 
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
+  <link href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" rel="stylesheet" />
+  <link href="/static/css/cloud_base.css?t=1633415986" rel="stylesheet" />
+  <style>
+    #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+  </style>
+</head>
+<body>
+  <div id="map">
+    <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+  </div>
+  <p><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></p>
+  <script>
+    // You can remove the following line if you don't need support for RTL (right-to-left) labels:
+    mapboxgl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/hybrid/style.json?key=vPjhHhi7BLLsqlePzTFr',
+      center: [0, 0],
+      zoom: 1
+    });
+  </script>
+</body>
+</html>
+```
+### Store JSON data from cenzus in to variable
+
+```
+    const data = [
+    {
+      'No': 1,
+      'country': 'BE',
+      'pop': 11522440
+    },
+    {
+      "No": 2,
+      "country": "BG",
+      "pop": 6951482
+    }, ...
+```
