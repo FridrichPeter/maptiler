@@ -10,11 +10,12 @@ It uses the [match](https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/
 
 ## What is a choropleth map?
 
-Before we get started, let’s explain what a choropleth map is to those who might not know. A choropleth map is a map that displays quantitative data values using a range of colors. Or, as more eloquently put by [Wikipedia](https://en.wikipedia.org/wiki/Choropleth_map):
+Before we get started, let’s explain what a choropleth map is to those who might not know. A choropleth map is a map that displays quantitative data values using a range of colors. Or, as more eloquently put by [Wikipedia](https://en.wikipedia.org/wiki/Choropleth_map). You can visualize population density, number of breweries per square kilometre for example etc.
 
 >A choropleth map (from Greek χῶρος ("area/region") + πλῆθος ("multitude")) is a thematic map in which areas are shaded or patterned proportionally to the value of a particular variable measured for each area. Most often the variable is quantitative, with a color associated with an attribute value. Though not as common, it is possible to create a choropleth map with nominal data. Choropleth maps illustrate the value of a variable across the landscape with color that changes across the landscape within a particular geographic area. [1] A choropleth map is an excellent way to visualize how a measurement varies across a geographic area.
 
 ![map](https://github.com/FridrichPeter/maptiler/blob/main/images/map.png)
+[1]
 
 
 ## Prepare JSON data
@@ -100,4 +101,25 @@ Calculate color values for each country based on 'pop' value and convert the ran
             const color = `rgb(0, ${red}, 0)`;
             matchExpression.push(row['country'], color);
         }
+  matchExpression.push('rgba(0, 0, 0, 0)');
 ```
+>Last value is the default, used where there is no data
+
+Add layer from the vector tile source to create the choropleth:
+
+```
+ map.addLayer(
+            {
+              'id': 'countries',
+              'format': 'pbf',
+              'vector_layers': '',
+              'paint': {
+              'fill-color': matchExpression
+            }
+            },
+            'administrative'
+        );
+    });
+
+```
+
