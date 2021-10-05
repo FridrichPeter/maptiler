@@ -64,11 +64,7 @@ As we mentioned above, for this project we used a Mapbox GL JS library, that loa
       'country': 'BE',
       'pop': 11522440
     },
-    {
-      "No": 2,
-      "country": "BG",
-      "pop": 6951482
-    }, ...
+   ...
 ```
 Local JSON consist of folowing values:
 * No - id of JSON object
