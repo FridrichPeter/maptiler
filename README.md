@@ -75,5 +75,7 @@ map.addSource('countries', {
           url: 'https://api.maptiler.com/tiles/countries/tiles.json?key=vPjhHhi7BLLsqlePzTFr'
         });
 ```
+![countries](https://github.com/FridrichPeter/maptiler/blob/main/images/countries.png)
+
 Add source for country polygons using the [Maptiler Countries dataset](https://docs.maptiler.com/schema/countries/#administrative). The polygons contain an ISO alpha-2 code which can be used to for joining the data.
 
