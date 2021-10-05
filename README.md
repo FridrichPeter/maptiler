@@ -68,6 +68,12 @@ As we mentioned above, for this project we used a Mapbox GL JS library, that loa
       "pop": 6951482
     }, ...
 ```
+Local JSON consist of folowing values:
+* No - id of JSON object
+* country - ISO alpha-2 code
+* pop - population value
+
+
 ### Add source for country polygons using the Maptiler Countries tileset
 ```
 map.addSource('countries', {
@@ -79,3 +85,19 @@ map.addSource('countries', {
 
 Add source for country polygons using the [Maptiler Countries dataset](https://docs.maptiler.com/schema/countries/#administrative). The polygons contain an ISO alpha-2 code which can be used to for joining the data.
 
+### Build a GL match expression
+We define the color for every vector tile feature use the ISO alpha-2 code as the lookup key for the country shape:
+
+```
+const matchExpression = ['match', ['get', 'iso_a2']];
+```
+
+Calculate color values for each country based on 'pop' value and convert the range of data values to a suitable color :
+
+```
+  for (const row of data) {
+            const red = row['pop'] / 10000;
+            const color = `rgb(0, ${red}, 0)`;
+            matchExpression.push(row['country'], color);
+        }
+```
