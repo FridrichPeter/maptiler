@@ -1,3 +1,4 @@
+![maptiler](https://github.com/FridrichPeter/maptiler/blob/main/images/maptiler.png)
 # MAPTILER
 ###### Join local JSON data with json geometries to make choropleth map with [MAPTILER CLOUD](https://www.maptiler.com/cloud/).
 
