@@ -68,3 +68,12 @@ As we mentioned above, for this project we used a Mapbox GL JS library, that loa
       "pop": 6951482
     }, ...
 ```
+### Add source for country polygons using the Maptiler Countries tileset
+```
+map.addSource('countries', {
+          type: 'json',
+          url: 'https://api.maptiler.com/tiles/countries/tiles.json?key=vPjhHhi7BLLsqlePzTFr'
+        });
+```
+Add source for country polygons using the [Maptiler Countries dataset](https://docs.maptiler.com/schema/countries/#administrative). The polygons contain an ISO alpha-2 code which can be used to for joining the data.
+
