@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Join local JSON data with json geometries to make choropleth map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
+  <link href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" rel="stylesheet" />
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#features {
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+width: 50%;
+overflow: auto;
+background: rgba(255, 255, 255, 0.8);
+}
+#map canvas {
+cursor: crosshair;
+}
+
+</style>
+</head>
+<body>
+<div id="map">
+  <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+</div>
+<script>
+
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS KEY FROM
+	// https://cloud.maptiler.com/maps/
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'https://api.maptiler.com/maps/hybrid/style.json?key=vPjhHhi7BLLsqlePzTFr',
+      center: [20, 50],
+      zoom: 4
+    });
+
+    // Data: DATAHUB CENSUS
+    // Source: https://ec.europa.eu/CensusHub2/query.do?step=selectHyperCube&qhc=false
+    const data = [
+    {
+      'No': 1,
+      'country': 'BE',
+      'pop': 11522440
+    },
+    {
+      "No": 2,
+      "country": "BG",
+      "pop": 6951482
+    },
+    {
+      "No": 3,
+      "country": "CZ",
+      "pop": 10693939
+    },
+    {
+      "No": 4,
+      "country": "DK",
+      "pop": 5822763
+    },
+    {
+      "No": 5,
+      "country": "DE",
+      "pop": 83166711
+    },
+    {
+      "No": 6,
+      "country": "EE",
+      "pop": 1328889
+    },
+    {
+      "No": 7,
+      "country": "IE",
+      "pop": 4964440
+    },
+    {
+      "No": 8,
+      "country": "GR",
+      "pop": 10718565
+    },
+    {
+      "No": 9,
+      "country": "ES",
+      "pop": 47332614
+    },
+    {
+      "No": 10,
+      "country": "FRA",
+      "pop": 67320216
+    },
+    {
+      "No": 11,
+      "country": "HR",
+      "pop": 4058165
+    },
+    {
+      "No": 12,
+      "country": "IT",
+      "pop": 59641488
+    },
+    {
+      "No": 13,
+      "country": "CY",
+      "pop": 888005
+    },
+    {
+      "No": 14,
+      "country": "LV",
+      "pop": 1907675
+    },
+    {
+      "No": 15,
+      "country": "LT",
+      "pop": 2794090
+    },
+    {
+      "No": 16,
+      "country": "LU",
+      "pop": 626108
+    },
+    {
+      "No": 17,
+      "country": "HU",
+      "pop": 9769526
+    },
+    {
+      "No": 18,
+      "country": "MT",
+      "pop": 514564
+    },
+    {
+      "No": 19,
+      "country": "NL",
+      "pop": 17407585
+    },
+    {
+      "No": 20,
+      "country": "AT",
+      "pop": 8901064
+    },
+    {
+      "No": 21,
+      "country": "PL",
+      "pop": 37958138
+    },
+    {
+      "No": 22,
+      "country": "PT",
+      "pop": 10295909
+    },
+    {
+      "No": 23,
+      "country": "RO",
+      "pop": 19328838
+    },
+    {
+      "No": 24,
+      "country": "SI",
+      "pop": 2095861
+    },
+    {
+      "No": 25,
+      "country": "SK",
+      "pop": 5457873
+    },
+    {
+      "No": 26,
+      "country": "FI",
+      "pop": 5525292
+    },
+    {
+      "No": 27,
+      "country": "SE",
+      "pop": 10327589
+    },
+    {
+      "No": 28,
+      "country": "IS",
+      "pop": 364134
+    },
+    {
+      "No": 29,
+      "country": "LI",
+      "pop": 38747
+    },
+    {
+      "No": 30,
+      "country": "NO",
+      "pop": 5367580
+    },
+    {
+      "No": 31,
+      "country": "CH",
+      "pop": 8606033
+    },
+    {
+      "No": 32,
+      "country": "ME",
+      "pop": 621873
+    },
+    {
+      "No": 33,
+      "country": "MK",
+      "pop": 2076255
+    },
+    {
+      "No": 34,
+      "country": "AL",
+      "pop": 2845955
+    },
+    {
+      "No": 35,
+      "country": "RS",
+      "pop": 6926705
+    },
+    {
+      "No": 36,
+      "country": "TR",
+      "pop": 83154997
+    },
+    {
+      "No": 37,
+      "country": "AD",
+      "pop": 77543
+    },
+    {
+      "No": 38,
+      "country": "BY",
+      "pop": 9408350
+    },
+    {
+      "No": 39,
+      "country": "SM",
+      "pop": 34735
+    },
+    {
+      "No": 40,
+      "country": "UA",
+      "pop": 41732779
+    },
+    {
+      "No": 41,
+      "country": "AM",
+      "pop": 2959694
+    },
+    {
+      "No": 42,
+      "country": "AZ",
+      "pop": 10067108
+    },
+    {
+      "No": 43,
+      "country": "GE",
+      "pop": 3716858
+    }
+    ];
+
+    map.on('load', () => {
+        // Add source for country polygons using the Maptiler Countries tileset
+        // The polygons contain an ISO alpha-2 code which can be used to for joining the data
+        // https://docs.maptiler.com/schema/countries/#administrative
+        map.addSource('countries', {
+          type: 'json',
+          url: 'https://api.maptiler.com/tiles/countries/tiles.json?key=vPjhHhi7BLLsqlePzTFr'
+        });
+
+        // Build a GL match expression that defines the color for every vector tile feature
+        // Use the ISO alpha-2 code as the lookup key for the country shape
+        const matchExpression = ['match', ['get', 'iso_a2']];
+
+        // Calculate color values for each country based on 'pop' value
+        for (const row of data) {
+            // Convert the range of data values to a suitable color
+            const red = row['pop'] / 10000;
+            const color = `rgb(0, ${red}, 0)`;
+
+            matchExpression.push(row['country'], color);
+        }
+
+        // Last value is the default, used where there is no data
+        matchExpression.push('rgba(0, 0, 0, 0)');
+
+        // Add layer from the vector tile source to create the choropleth
+        // Insert it below the 'administrative' layer in the style
+        map.addLayer(
+            {
+              'id': 'countries',
+              'format': 'pbf',
+              'vector_layers': '',
+              'paint': {
+              'fill-color': matchExpression
+            }
+            },
+            'administrative'
+        );
+    });
+
+// hover event
+map.on('mousemove', (e) => {
+const features = map.queryRenderedFeatures(e.point);
+ 
+// Limit the number of properties we're displaying for
+// legibility and performance
+const displayProperties = [
+'pop',
+];
+ 
+const displayFeatures = features.map((feat) => {
+const displayFeat = {};
+displayProperties.forEach((prop) => {
+displayFeat[prop] = feat[prop];
+});
+return displayFeat;
+});
+ 
+// Write object as string with an indent of two spaces.
+document.getElementById('features').innerHTML = JSON.stringify(
+displayFeatures,
+null,
+2
+);
+});
+
+
+</script>
+
+</body>
+</html>
