@@ -47,7 +47,7 @@ As we mentioned above, for this project we used a Mapbox GL JS library, that loa
     mapboxgl.setRTLTextPlugin('https://cdn.maptiler.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.1.2/mapbox-gl-rtl-text.js');
     var map = new mapboxgl.Map({
       container: 'map',
-      style: 'https://api.maptiler.com/maps/hybrid/style.json?key=vPjhHhi7BLLsqlePzTFr',
+      style: 'https://api.maptiler.com/maps/hybrid/sty',
       center: [0, 0],
       zoom: 1
     });
